@@ -20,8 +20,7 @@ const notes2 = [{
     {
         title: 'My nickname',
         body: 'Kanu',
-    },
-    {}
+    }
 ];
 
 const index = notes2.findIndex(x => x.title === 'My next trip')
@@ -40,3 +39,14 @@ notes2.forEach((value, index) => {
     if( !Object.entries(value).length && value.constructor === Object) 
     console.log('Alternative empty object index: ',index);
 })
+
+// console.log(notes2, 'tyththhht')
+
+// Filter 
+const res = notes2.filter((obj) => {
+    return obj.title.includes('My ni');
+});
+
+console.log('filtered List', res);
+
+
