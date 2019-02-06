@@ -9,6 +9,7 @@ todos.forEach((todo, index)=> {
     todosObj['status'] = status[index];
     _todos.push(todosObj);
 });
+console.log(_todos);
 
 // Filter based on status completed. Remove with completed true.
 
