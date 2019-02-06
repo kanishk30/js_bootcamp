@@ -20,7 +20,7 @@ const todos = [{
     }
 ]
 // print status : false number of todos left
-// Add a p for each todo above using textValue
+// Add a p for each todo above
 
 let _todo = todos.filter((todo) => {
     return !todo.status;
@@ -33,4 +33,8 @@ todos.forEach((todo)=> {
     const newTodo = document.createElement('p');
     newTodo.textContent = todo.text;
     document.querySelector('body').appendChild(newTodo);
+})
+
+document.querySelector('button').addEventListener('click', (e) => {
+    e.target.textContent = 'I am Clicked'
 })
