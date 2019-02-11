@@ -18,4 +18,9 @@ const notes2 = [{
 // document.querySelector('body').appendChild(newParagraph);
 
 document.querySelector('button').addEventListener('click', (e) => { console.log(e) })
-    
+
+document.querySelector('#create-btn').textContent = 'Button clicked';
+document.querySelector('#remove-btn').addEventListener('click', () => {
+    console.log('Remove ');
+    document.querySelectorAll('.note').forEach((e) => e.remove())
+});
