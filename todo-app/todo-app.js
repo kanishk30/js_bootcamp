@@ -23,47 +23,32 @@ const todos = [{
 // Add a p for each todo above
 
 const filters = {
-    searchText : ''
+    searchText : '',
+    hideCompleted: false
 }
 
-
-
-let incompleteTodos = todos.filter((todo) => {
-    return !todo.status;
-});
-const summary = document.createElement('h2');
-summary.textContent = `You have ${incompleteTodos.length} todo left`;
-document.querySelector('body').appendChild(summary);
 const todoDiv = document.createElement('div');
 todoDiv.setAttribute('id', 'parent-div');
 
 document.querySelector('body').appendChild(todoDiv);
-// todos.forEach((todo)=> {
-//     const newTodo = document.createElement('p');
-//     newTodo.textContent = todo.text;
-//     // if (!todo.status && todo.text.includes(filter.searchText)) {
-//         document.querySelector('#parent-div').appendChild(newTodo);
-//     // }
-// })
-
-// Listening to button click event
-document.querySelector('button').addEventListener('click', (e) => {
-    e.target.textContent = 'I am Clicked'
-})
-
-// Typing on input
-document.querySelector('#new-todo-input').addEventListener('input', (e) => {
-    console.log(e.target.value);
-    // const p = document.querySelector('body').appendChild(document.createElement('p'));
-    // p.textContent = e.target.value;
-})
 
 const renderTodos = ((todos, filters) => {
+    
     const filteredTodo = todos.filter((todo) => {
-        return todo.text.toLowerCase().includes(filters.searchText.toLowerCase())
+        return todo.text.toLowerCase().includes(filters.searchText.toLowerCase()) && (!todo.status || !filters.hideCompleted) 
     })
-    console.log(filteredTodo);
+
+    let incompleteTodos = filteredTodo.filter((todo) => {
+        return !todo.status;
+    });
+
     document.querySelector('#parent-div').innerHTML = '';
+
+    const summary = document.createElement('h2');
+    summary.textContent = `You have ${incompleteTodos.length} todo left`;
+    document.querySelector('#parent-div').appendChild(summary);
+    console.log(filteredTodo);
+    
     filteredTodo.forEach((todo) => {
         const newTodo = document.createElement('p');
         newTodo.textContent = todo.text;
@@ -78,5 +63,22 @@ document.querySelector('#search-todo').addEventListener('input', (e) => {
     filters.searchText = e.target.value;
     renderTodos(todos, filters);
 })
-renderTodos(todos, filters)();
+renderTodos(todos, filters);
+
+document.querySelector('#todo-form').addEventListener('submit', (event) => {
+    event.preventDefault();
+    let newItem = event.target.elements.addTodo.value;
+    const obj = {
+        text: newItem,
+        status: false
+    }
+    todos.push(obj);
+    event.target.elements.addTodo.value = '';
+    renderTodos(todos, filters);
+})
+
+document.querySelector('#check-todo').addEventListener('change', (e) => {
+    filters.hideCompleted = e.target.checked;
+    renderTodos(todos, filters)
+})
 
