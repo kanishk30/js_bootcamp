@@ -12,35 +12,9 @@ todoDiv.setAttribute('id', 'parent-div');
 
 document.querySelector('body').appendChild(todoDiv);
 
-const todosJSON = localStorage.getItem('todos');
-if (todosJSON) {
-    todos = JSON.parse(todosJSON);
-}
+todos = getSavedTodos();
 
-const renderTodos = ((todos, filters) => {
-    
-    const filteredTodo = todos.filter((todo) => {
-        return todo.text.toLowerCase().includes(filters.searchText.toLowerCase()) && (!todo.status || !filters.hideCompleted) 
-    })
-
-    let incompleteTodos = filteredTodo.filter((todo) => {
-        return !todo.status;
-    });
-
-    document.querySelector('#parent-div').innerHTML = '';
-
-    const summary = document.createElement('h2');
-    summary.textContent = `You have ${incompleteTodos.length} todo left`;
-    document.querySelector('#parent-div').appendChild(summary);
-    console.log(filteredTodo);
-    
-    filteredTodo.forEach((todo) => {
-        const newTodo = document.createElement('p');
-        newTodo.textContent = todo.text;
-        document.querySelector('#parent-div').appendChild(newTodo);
-    })
-    // If required -> localStorage.removeItem('todos')
-})
+renderTodos(todos, filters);
 
 document.querySelector('#search-todo').addEventListener('input', (e) => {
     console.log(e.target.value);
@@ -57,7 +31,8 @@ document.querySelector('#todo-form').addEventListener('submit', (event) => {
         status: false
     }
     todos.push(obj);
-    localStorage.setItem('todos', JSON.stringify(todos));
+    saveTodos(todos); 
+    
     event.target.elements.addTodo.value = '';
     renderTodos(todos, filters);
 })
