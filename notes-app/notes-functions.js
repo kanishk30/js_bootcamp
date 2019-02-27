@@ -11,18 +11,39 @@ const notesJSON = localStorage.getItem('notes');
     }
 }
 
-// Save n otes to local storage
+// Save notes to local storage
 
 const saveNotes = (notes) => {
     localStorage.setItem('notes', JSON.stringify(notes));
 }
 
+const removeNote = (id) => {
+    const noteIndex = notes.findIndex((note) => {
+        return note.id === id;
+    })
+    if (noteIndex > -1) {
+        notes.splice(noteIndex, 1)
+    }
+}
+
 // Generate DOM nodes
 
 const generateNoteDOM = (note) => {
-     const el = document.createElement('p');
-     el.textContent = note.title.length ? '' : 'unnamed note';
+     const el = document.createElement('div');
+     const textEl = document.createElement('a');
+     const button = document.createElement('button');
+     button.textContent = 'x';
+     el.appendChild(button);
+     button.addEventListener('click', () => {
+        removeNote(note.id);
+        renderNotes(notes, filters);
+     })
 
+     // Setup note title text
+     textEl.textContent = note.title.length ? note.title : 'unnamed note';
+     textEl.setAttribute('href', `/edit.html#${note.id}`);
+
+     el.appendChild(textEl);
      return el;
 }
 
