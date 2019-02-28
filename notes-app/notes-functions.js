@@ -47,9 +47,34 @@ const generateNoteDOM = (note) => {
      return el;
 }
 
-// Render application notes
+// sort notes 
+
+const sortNotes = (notes, sortBy) => {
+    switch (sortBy) {
+        case 'byEdited' :
+        return notes.sort((a,b) => { 
+            if (a.updatedAt > b.updatedAt) return -1;
+            else if (a.updatedAt < b.updatedAt) return 1;
+            else return 0
+        })
+
+        case 'byCreated' :
+        return notes.sort((a,b) => {
+            return a.createdAt > b.createdAt ? 1 : a.createdAt < b.createdAt ? -1 : 0;
+        })
+
+        case 'alphabetical' :
+        return notes.sort((a,b) => {
+            return a.title.toLowerCase() > b.title.toLowerCase() ? 1 : a.title.toLowerCase() < b.title.toLowerCase() ? -1 : 0 
+        })
+    }
+        
+}
+
+// Render application notes 
 
 const renderNotes = (notes, filters) => {
+    notes = sortNotes(notes, filters.sortBy);
     const filteredNotes = notes.filter((note) => {
         return note.title.toLowerCase().includes(filters.searchText.toLowerCase())
     })
@@ -61,4 +86,10 @@ const renderNotes = (notes, filters) => {
 
         document.querySelector('#notes').appendChild(el)
     })
+}
+
+// generate last edited function 
+
+const generateLastEdited = (timestamp) => {
+    return `Last updated ${moment(timestamp).fromNow()}`
 }

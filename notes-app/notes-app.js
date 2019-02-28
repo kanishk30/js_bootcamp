@@ -1,7 +1,8 @@
 let notes = getSavedNotes()
 
 const filters = {
-    searchText: ''
+    searchText: '',
+    sortBy: 'byEdited'
 }
 
 renderNotes(notes, filters);
@@ -11,7 +12,9 @@ document.querySelector('#create-note').addEventListener('click', (e) => {
     notes.push({
         id: id,
         title: '',
-        text: ''
+        text: '',
+        createdAt: moment().valueOf(),
+        updatedAt: moment().valueOf(),
     })
     saveNotes(notes);
     // renderNotes(notes, filters);
@@ -25,7 +28,8 @@ document.querySelector('#search-text').addEventListener('input', (e) => {
 })
 
 document.querySelector('#filter-by').addEventListener('change', (e) => {
-    console.log(e.target.value);
+   filters.sortBy = e.target.value;
+   renderNotes(notes, filters);
 })
 
 window.addEventListener('storage', (e) => {
@@ -34,3 +38,20 @@ window.addEventListener('storage', (e) => {
         renderNotes(notes, filters);
     }
 })
+
+// console.log(new Date().toString())
+// console.log(+new Date().getFullYear());
+// console.log(new Date(+new Date()));
+// console.log(new Date().getTime());
+
+const date1 = new Date('Feb 20 2002');
+const date2 = new Date('Mar 21 2002');
+
+
+// Both same thing
+// const ts1 = date1.getTime();
+
+// const ts1A = +date1
+
+const birthday = moment().year(1995).month(3).date(30).format('DD MMM YYYY');
+console.log(birthday, 'bday');
