@@ -1,3 +1,4 @@
+'use strict'
 let todos = [];
 // print status : false number of todos left
 // Add a p for each todo above
